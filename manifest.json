@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "en",
+  "version": "1.0.0",
+  "action": {
+    "default_title": "__MSG_appName__",
+    "default_popup": "popup/popup.html",
+    "default_icon": "images/crosshairs-circle-light.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/crosshairs-circle-light.png"
+      ],
+      "matches": [
+        "https://*.youtube.com/*"
+      ],
+      "use_dynamic_url": true
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*.youtube.com/*"],
+      "css": ["scripts/content-styles.css"],
+      "js": ["scripts/content-script.js"],
+      "permissions": ["storage"]
+    },
+    {
+      "matches": ["*://*/*"],
+      "css": ["scripts/content-styles.css"],
+      "js": ["scripts/monkeyType.js"],
+      "permissions": ["storage"]
+    }
+  ],
+  "permissions": ["storage"],
+  "options_page": "options/options.html",
+  "icons": {
+    "16": "images/crosshairs-circle-light.png",
+    "32": "images/crosshairs-circle-light.png",
+    "48": "images/crosshairs-circle-light.png",
+    "128": "images/crosshairs-circle-light.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

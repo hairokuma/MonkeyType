@@ -1,0 +1,12 @@
+body{
+    background-color: #000000 !important;
+}
+.summary{
+    background-color: #000000 !important;
+    color: #fff;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 220px;
+    height: 220px;
+}

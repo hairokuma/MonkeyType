@@ -1,0 +1,20 @@
+{
+    "appName": {
+        "message": "Monkey Type"
+    },
+    "appDesc": {
+        "message": "Monkey Type Beschreibung"
+    },
+    "popup": {
+        "message": "popup übersetzung"
+    },
+    "options": {
+        "message": "options übersetzung"
+    },
+    "background": {
+        "message": "background übersetzung"
+    },
+    "content": {
+        "message": "content übersetzung"
+    }
+}
