@@ -1,20 +1,3 @@
-// const imageBlue = chrome.runtime.getURL("images/samdock-logo-blue.png");
-// const data = await chrome.storage.sync.get("samdockLogin");
-// chrome.storage.sync.get(['samdockLogin'], async function (result) {
-//     if (result.samdockLogin && result.samdockLogin.loggedIn) {
-//     }
-// });
-// chrome.storage.onChanged.addListener(function (changes, namespace) {
-//     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-//         if (key == "samdockLogin") {
-//         }
-//     }
-// });
-// TODO: fix bug with charIndex if first char in paragraph is wrong for multiple times
-// TODO: fix initialisation of paragraphes with nested elements
-// TODO: fix bug writing last char in paragraph twice will set cursor to next paragraph without initializing it
-// TODO: add ctrl+backspace to delete word
-// fix inline elements cursor position bug (e.g. <br>, <img>)
 const wrongSpace = "·";
 const similarQuotes = ['"', "'", '«', '»', '‘', '’', '‚', '“', '”', '„', '`', ',']
 const similarBrackets = ['(', ')', '[', ']', '{', '}', '<', '>', '«', '»']
@@ -64,16 +47,19 @@ async function load() {
 
     console.log('DOMContentLoaded');
     caseSensitive = await chrome.storage.sync.get("monkeyTypeCaseSensitive");
-    isActive = await chrome.storage.sync.get("monkeyTypeAutoStart");
-    console.log(isActive);
-    if (isActive.monkeyTypeAutoStart) {
+    autoStart = await chrome.storage.sync.get("monkeyTypeAutoStart");
+    console.log(autoStart);
+    if (autoStart.monkeyTypeAutoStart) {
         document.designMode = "on";
+        isActive = true;
     }
     showSummary = await chrome.storage.sync.get("monkeyTypeShowSummary");
     // initParagraph();
 }
 
 document.addEventListener("click", function (e) {
+    console.log(isActive);
+    
     if (isActive && !e.target.closest('.summary')) {
         initParagraph();
     }
@@ -87,7 +73,11 @@ document.addEventListener('keydown', e => {
         console.log('designMode: ' + document.designMode);
     }
     // if not active or no paragraph
-    if (!isActive || !paragraph) {
+    if (!isActive || !paragraph ) {
+        return;
+    }
+    // if ctrl or alt is pressed
+    if (e.ctrlKey || e.altKey) {
         return;
     }
     updateIndex();
@@ -191,8 +181,8 @@ function updateIndex() {
     }
 }
 function initParagraph() {
-    
     var element = window.getSelection().focusNode.parentElement;
+
     if (element.tagName == "BODY" || element.tagName == "HTML") {
         return;
     }
